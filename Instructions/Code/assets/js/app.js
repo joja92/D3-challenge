@@ -3,10 +3,10 @@ var svgWidth = 1000;
 var svgHeight = 600;
 
 var margin = {
-    top: 25,
-    right: 25,
-    bottom: 25,
-    left: 25
+    top: 20,
+    right: 40,
+    bottom: 60,
+    left: 60
 };
 
 var chartWidth = svgWidth - margin.left - margin.right;
@@ -29,11 +29,11 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
     });
 
     var xLinearScale = d3.scaleLinear()
-        .domain([0, d3.max(stateData, data => data.poverty)])
+        .domain([8, d3.max(stateData, data => data.poverty)])
         .range([0, chartWidth]);
 
     var yLinearScale = d3.scaleLinear()
-        .domain([0, d3.max(stateData, data => data.healthcare)])
+        .domain([4, d3.max(stateData, data => data.healthcare)])
         .range([chartHeight, 0]);
     
     var bottomAxis = d3.axisBottom(xLinearScale);
@@ -55,8 +55,8 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
         .attr("cy", function(d) {
             return yLinearScale(d.healthcare);
         })
-        .attr("r", "5")
-        .attr("fill", "#17a2b8");
+        .attr("r", "13")
+        .attr("class", "stateCircle");
 
     chartGroup.selectAll("text")
         .data(stateData)
@@ -69,21 +69,22 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
             return xLinearScale(d.poverty);
         })
         .attr("y", function(d) {
-            return yLinearScale(d.healthcare);
+            return yLinearScale(d.healthcare) + 5;
         })
-        .attr("font-size", "12px");
+        .attr("font-size", "12px")
+        .attr("class", "stateText");
     
     chartGroup.append("text")
         .attr("transform", "rotate(-90)")
-        .attr("y", 0 - margin.left + 25)
+        .attr("y", 0 - margin.left)
         .attr("x", 0 - (chartHeight / 2))
         .attr("dy", "1em")
-        .attr("class", "axisLabel")
+        .attr("class", "aText")
         .text("Healthcare (%)");
 
     chartGroup.append("text")
-        .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + margin.top - 30})`)
-        .attr("class", "axisLabel")
+        .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + margin.top + 30})`)
+        .attr("class", "aText")
         .text("Poverty (%)");
 
 }).catch(function(error) {
