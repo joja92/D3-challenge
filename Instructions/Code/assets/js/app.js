@@ -29,11 +29,11 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
     });
 
     var xLinearScale = d3.scaleLinear()
-        .domain([0, d3.max(stateData, data => data.healthcare)])
+        .domain([0, d3.max(stateData, data => data.poverty)])
         .range([0, chartWidth]);
 
     var yLinearScale = d3.scaleLinear()
-        .domain([0, d3.max(stateData, data => data.poverty)])
+        .domain([0, d3.max(stateData, data => data.healthcare)])
         .range([chartHeight, 0]);
     
     var bottomAxis = d3.axisBottom(xLinearScale);
@@ -50,10 +50,10 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
         .enter()
         .append("circle")
         .attr("cx", function(d) { 
-            return xLinearScale(d.healthcare); 
+            return xLinearScale(d.poverty); 
         })
         .attr("cy", function(d) {
-            return yLinearScale(d.poverty);
+            return yLinearScale(d.healthcare);
         })
         .attr("r", "5")
         .attr("fill", "#17a2b8");
@@ -66,10 +66,10 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
             return d.abbr;
         })
         .attr("x", function(d) {
-            return xLinearScale(d.healthcare);
+            return xLinearScale(d.poverty);
         })
         .attr("y", function(d) {
-            return yLinearScale(d.poverty);
+            return yLinearScale(d.healthcare);
         })
         .attr("font-size", "12px");
     
@@ -79,12 +79,12 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
         .attr("x", 0 - (chartHeight / 2))
         .attr("dy", "1em")
         .attr("class", "axisLabel")
-        .text("Poverty (%)");
+        .text("Healthcare (%)");
 
     chartGroup.append("text")
         .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + margin.top - 30})`)
         .attr("class", "axisLabel")
-        .text("Healthcare (%)");
+        .text("Poverty (%)");
 
 }).catch(function(error) {
     console.log(error);
